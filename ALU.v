@@ -6,6 +6,7 @@ module alu(
     output isZero);
 
 reg [7:0] Result;
+assign ALU_Out = Result;
 always @(*) 
 begin 
 case(ALU_Code)
