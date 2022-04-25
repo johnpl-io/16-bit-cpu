@@ -6,10 +6,10 @@ module alu(
     output isZero);
 
 reg [7:0] Result;
-always @(*) begin 
-case(Alu_Code)
-    3'b000: Result = A + B //ADD 
-
+always @(*) 
+begin 
+case(ALU_Code)
+    3'b000: Result = A + B; //ADD 
 endcase
 
 
