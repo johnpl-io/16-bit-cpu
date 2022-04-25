@@ -13,7 +13,8 @@ case(ALU_Code)
     3'b000: Result = A + B; //ADD
     3'b001: Result = A - B; //SUB
     3'b010: Result = A>>1; //LSL
-    3'b011: Result = A & B; //AND
+    3'b011: Result = A<<1; //LSR
+    3'b100: Result = A & B; //AND
     3'b101: Result = A | B; //A or B
     3'b110: Result = ~(A); //Not
     3'b111: Result = A^B; //Exclusive OR
