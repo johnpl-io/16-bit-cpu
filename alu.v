@@ -8,10 +8,15 @@ module alu(
 
 reg [7:0] Result;
 assign ALU_Out = Result;
+reg carry;
+assign Carry = carry;
+reg iszero;
+assign isZero = iszero;
+
 always @(*) 
 begin 
 case(ALU_Code)
-    3'b000: Result = A + B; //ADD
+    3'b000: {carry,Result} = A + B; //ADD
     3'b001: Result = A - B; //SUB
     3'b010: Result = A>>1; //LSL
     3'b011: Result = A<<1; //LSR
@@ -22,6 +27,8 @@ case(ALU_Code)
     //probably should add mult div etc 
     default: Result = A+B;
 endcase
+iszero = Result == 0 ? 1 : 0;
+
 
 
 end
