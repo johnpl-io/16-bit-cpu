@@ -1,9 +1,10 @@
 module alu(
+    input [7:0] A, 
+    input [7:0] B,
     input [2:0] ALU_Code,
-    input [7:0] A, B,
-    output [7:0] ALU_Out,
-    output Carry,
-    output isZero);
+    output [7:0] ALU_Out, //,
+   output Carry,
+   output isZero);
 
 reg [7:0] Result;
 assign ALU_Out = Result;
@@ -19,7 +20,7 @@ case(ALU_Code)
     3'b110: Result = ~(A); //Not
     3'b111: Result = A^B; //Exclusive OR
     //probably should add mult div etc 
-
+    default: Result = A+B;
 endcase
 
 
@@ -28,3 +29,4 @@ end
 
 endmodule
  
+

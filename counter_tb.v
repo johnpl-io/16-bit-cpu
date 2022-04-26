@@ -1,30 +1,13 @@
-module test;
+`timescale 1ns / 10ps 
+module reb_alu;
+reg [7:0] a,a;
+reg [2:0] ctrl;
+reg [7:0] res;
 
-  /* Make a reset that pulses once. */
-  reg reset = 0;
-  initial begin
-     $dumpfile("test.vcd");
-     $dumpvars(0,test);
-/*
-     # 17 reset = 1;
-     # 11 reset = 0;
-     # 29 reset = 1;
-     # 5  reset = 0;
-     # 513 $finish;
-*/
-   # 1 reset = 1;
-   # 3 reset = 0;
-   # 20 $finish;
-  end
 
-  /* Make a regular pulsing clock. */
-  reg clk = 0;
-  always #1 clk = !clk;
-
-  wire [7:0] value;
-  counter c1 (value, clk, reset);
-
-  initial
-     $monitor("At time %t, reset = %h, value = %h (%0d)",
-              $time, reset, value, value);
+alu alu_test(.A(a), .B(b), .A_Code(ctrl), .ALU_Out(res));
+a = 8'b00000001;
+b = 8'b00000001;
+ctrl = 3'b000;
+$monitor("%b", res);
 endmodule // test
