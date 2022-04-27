@@ -11,11 +11,11 @@ alu alu_test(.A(a), .B(b), .ALU_Code(ctrl), .ALU_Out(res), .Carry(Carry), .isZer
 
    initial // initial block executes only once
         begin
-            $monitor("sum %b", isZero);
+            $monitor("sum %b", res);
 
 
-            a = 8'b00000001;
-            b = 8'b00000001;
+            a = 8'd2;
+            b = 8'd5;
             ctrl = 3'b001;
           
 
