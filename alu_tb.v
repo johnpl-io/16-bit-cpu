@@ -1,8 +1,8 @@
 `timescale 1ns / 10ps 
 module reb_alu;
-reg [7:0] a,b;
+reg [15:0] a,b;
 reg [2:0] ctrl;
-wire [7:0] res;
+wire [15:0] res;
 wire Carry;
 wire isZero;
 
