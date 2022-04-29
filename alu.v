@@ -6,7 +6,7 @@ module alu(
     output Carry,
     output isZero);
 
-reg [7:0] Result;
+reg [15:0] Result;
 assign ALU_Out = Result;
 reg carry;
 assign Carry = carry;
