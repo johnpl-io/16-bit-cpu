@@ -12,7 +12,7 @@ reg carry;
 assign Carry = carry;
 reg iszero;
 assign isZero = iszero;
-
+//carry may need to be changed to overflow
 always @(*) 
 begin 
 case(ALU_Code)
