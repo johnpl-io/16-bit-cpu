@@ -1,12 +1,12 @@
 module alu(
-    input [7:0] A, 
-    input [7:0] B,
+    input [15:0] A, 
+    input [15:0] B,
     input [2:0] ALU_Code,
-    output [7:0] ALU_Out,
+    output [15:0] ALU_Out,
     output Carry,
     output isZero);
 
-reg [7:0] Result;
+reg [15:0] Result;
 assign ALU_Out = Result;
 reg carry;
 assign Carry = carry;
