@@ -1,6 +1,5 @@
 module alu(
-    input [15:0] A, 
-    input [15:0] B,
+    input [15:0] A, B,
     input [2:0] ALU_Code,
     output [15:0] ALU_Out,
     output Carry,

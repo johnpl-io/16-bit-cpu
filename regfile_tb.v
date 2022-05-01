@@ -1,22 +1,34 @@
-`timescale 1ns / 10ps 
+`timescale 1ns / 1ps 
 module regfile_tb();
 reg clk;
+reg write_en;
+reg [2:0] rega, regb, wreg;
+reg [15:0] writedata;
+wire [15:0] read1, read2;
 
 
+regfile reg_test(clk, write_en, rega, regb, wreg, writedata, read1, read2);
 
-alu alu_test(.A(a), .B(b), .ALU_Code(ctrl), .ALU_Out(res), .Carry(Carry), .isZero(isZero));
-
-   initial // initial block executes only once
-        begin
-            $monitor("sum %b", res);
-
-
-            a = 8'd2;
-            b = 8'd5;
-            ctrl = 3'b001;
-          
-
-
-        end
+initial begin
+clk = 0;
+end
+always #10 clk =~ clk;
+initial begin 
+    write_en <= 1'b1;
+    #100;
+    rega <= 3'b0;
+    #100;
+    regb <= 3'b100;
+    #100;
+    wreg <= 3'b001;
+    #100;
+    writedata <= 16'b1;
+    rega <= 3'b001;
+    #100;
+    $monitor("%b", read1);
+       $dumpfile("test.vcd");
+       $dumpvars(0,clk, write_en);  
+$finish();
+end
 
 endmodule // test
