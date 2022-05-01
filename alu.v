@@ -29,7 +29,6 @@ case(ALU_Code)
 endcase
 iszero = Result == 0 ? 1 : 0;
 
-
 end
 
 
