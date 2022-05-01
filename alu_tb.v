@@ -11,11 +11,7 @@ alu alu_test(.A(a), .B(b), .ALU_Code(ctrl), .ALU_Out(res), .Carry(Carry), .isZer
 
    initial // initial block executes only once
         begin
-<<<<<<< HEAD
-            $monitor("result %b", isZero);
-=======
             $monitor("sum %b", res);
->>>>>>> 47ea98bc8cd1fe27668c895c8d1bacf5abef9924
 
 
             a = 8'd2;
