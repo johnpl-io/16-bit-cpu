@@ -5,7 +5,7 @@ module imem(
 
     reg [15:0] ram [0:255];
 
-    initial $readmemh("code.txt", ram);
+    initial $readmemb("code.txt", ram);
     assign instruction = ram[pc];
 
 endmodule
