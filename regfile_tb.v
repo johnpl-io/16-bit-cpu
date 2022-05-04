@@ -25,7 +25,7 @@ initial begin
     writedata <= 16'b1;
     rega <= 3'b001;
     #100;
-    $monitor("%b", read1);
+    $monitor("%b", rega);
        $dumpfile("test.vcd");
        $dumpvars(0,clk, write_en);  
 $finish();
