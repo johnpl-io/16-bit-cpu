@@ -36,23 +36,25 @@ begin case(opcode)
     7'b0000000:
     begin
         ctrl = 3'b000;
-       
+       $monitor("%d" , res );
         write_en = 1;
-        #10
+         
+        #2
     write_en = 0;
- $monitor("%d" , res );
+
     end
 endcase
 
 end
 
 
-always @(negedge clk) 
+always @(posedge clk) 
 begin 
-    pc = pc + 1;
-    #20;
-    if(pc > 3) 
+   pc = pc + 1;
+         #2;
+    if(pc > 2) 
     $finish;
+  
 end
 initial begin
 clk = 0;
