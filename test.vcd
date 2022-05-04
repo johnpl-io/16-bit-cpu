@@ -1,11 +1,11 @@
 $date
-	Sun May  1 17:27:14 2022
+	Tue May  3 20:45:13 2022
 $end
 $version
 	Icarus Verilog
 $end
 $timescale
-	10ps
+	1ps
 $end
 $scope module regfile_tb $end
 $var reg 1 ! clk $end
@@ -14,7 +14,7 @@ $scope module regfile_tb $end
 $var reg 1 " write_en $end
 $upscope $end
 $enddefinitions $end
-#50000
+#500000
 $dumpvars
 1"
 0!

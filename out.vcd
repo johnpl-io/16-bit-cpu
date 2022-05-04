@@ -1,0 +1,40 @@
+$date
+	Tue May  3 21:47:48 2022
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module CPU $end
+$var reg 1 ! clk $end
+$upscope $end
+$scope module CPU $end
+$var wire 16 " res [15:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b100 "
+0!
+$end
+#20
+1!
+#40
+b110 "
+0!
+#60
+1!
+#80
+0!
+#100
+1!
+#120
+0!
+#140
+1!
+#160
+0!
+#180
+1!
