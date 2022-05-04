@@ -27,6 +27,7 @@ assign wreg = instruction[8:6];
 assign reg1 = instruction[5:3];
 assign reg2 = instruction[2:0];
 
+
 alu alu_test(.A(read1), .B(read2), .ALU_Code(ctrl), .ALU_Out(res), .Carry(Carry), .isZero(isZero));
 regfile reg_test(.clk(clk), .write_en(write_en), .rega(reg1), .regb(reg2), .wreg(wreg), .writedata(res), .read1(read1), .read2(read2));
 imem imem_test(.pc(pc), .instruction(instruction));
@@ -38,25 +39,25 @@ begin case(opcode)
         ctrl = 3'b000;
        
         write_en = 1;
-        #10
+      $monitor("%d" , read1);
+    #10;
     write_en = 0;
- $monitor("%d" , res );
     end
 endcase
 
 end
 
 
-always @(negedge clk) 
+always @(posedge clk) 
 begin 
     pc = pc + 1;
-    #20;
+    #2;
     if(pc > 3) 
     $finish;
 end
 initial begin
 clk = 0;
-pc = -1;
+pc = 0;
 write_en = 0;
 $dumpfile("out.vcd");
 $dumpvars(0,clk, res);
