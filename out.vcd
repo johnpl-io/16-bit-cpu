@@ -1,5 +1,5 @@
 $date
-	Tue May  3 21:47:48 2022
+	Tue May  3 22:06:29 2022
 $end
 $version
 	Icarus Verilog
@@ -16,25 +16,29 @@ $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-b100 "
+b110 "
 0!
 $end
 #20
+b1100 "
 1!
 #40
-b110 "
 0!
 #60
+b11000 "
 1!
 #80
 0!
 #100
+b110000 "
 1!
 #120
 0!
 #140
+b1100000 "
 1!
 #160
 0!
 #180
+b11000000 "
 1!

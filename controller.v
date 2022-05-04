@@ -6,7 +6,6 @@ module CPU();
 
 wire [15:0] instruction;
 reg clk;
-reg [15:0] a,b;
 reg [2:0] ctrl;
 reg [15:0] pc;
 wire [15:0] res;
@@ -34,15 +33,17 @@ imem imem_test(.pc(pc), .instruction(instruction));
 
 always @(posedge clk)
 begin case(opcode) 
-    7'b0xxxxxx:
+    7'b0000000:
     begin
         ctrl = 3'b000;
+       
         write_en = 1;
-        #10;
-        write_en = 0; 
+        #10
+    write_en = 0;
+ $monitor("%d" , res );
     end
 endcase
-$monitor("%d" , res );
+
 end
 
 
