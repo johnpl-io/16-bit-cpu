@@ -58,7 +58,7 @@ end
 initial begin
 clk = 0;
 pc = -1;
-write_en = 0;
+
 $dumpfile("out.vcd");
 $dumpvars(0,clk, res);
 end
