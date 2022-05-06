@@ -8,8 +8,8 @@ output [15:0] read1, read2
 
 reg [15:0] reg8 [7:0];
 initial begin
-    reg8[0] <= 5;
-    reg8[1] <= 3;
+    reg8[0] <= 16'b0;
+    reg8[1] <= 16'b0;
     reg8[2] <= 16'b0;
     reg8[3] <= 16'b0;
     reg8[4] <= 16'b0;

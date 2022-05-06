@@ -8,7 +8,10 @@ module alumux(
  begin 
      case (aluop)
      1'b0: alumuxout =read2;
-     1'b1: alumuxout = {6'b0,immediate};    
+ 
+     1'b1: begin alumuxout = {9'b0,immediate};  
+     $display("%b", alumuxout);
+     end  
 
      endcase
  end

@@ -10,6 +10,7 @@ output reg jump, branch, memwrite, regwrite, aluop);
      branch = 0;
      memwrite = 0;
      regwrite = 1;
+     aluop = 0;
      end
      3'b001:
       begin 
@@ -17,6 +18,7 @@ output reg jump, branch, memwrite, regwrite, aluop);
      branch = 0;
      memwrite = 0;
      regwrite = 1;
+     aluop = 1;
      end
      endcase
  end
