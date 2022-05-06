@@ -15,7 +15,7 @@ wire Carry;
 wire isZero;
 
 wire [2:0] reg1, reg2, wreg;
-wire [2:0] ALU_op;
+wire [2:0] ALU_Code;
 wire [2:0] opcode;
 wire [3:0] func;
 
@@ -30,14 +30,15 @@ assign opcode = instruction[15:13];
 assign wreg = instruction[12:10];
 assign reg1 = instruction[9:7];
 assign reg2 = instruction[6:4];
+assign func = instruction[3:0];
 
 
 
-alu alu_test(.A(read1), .B(read2), .ALU_Code(ALU_op), .ALU_Out(res), .Carry(Carry), .isZero(isZero));
+alu alu_test(.A(read1), .B(read2), .ALU_Code(ALU_Code), .ALU_Out(res), .Carry(Carry), .isZero(isZero));
 regfile reg_test(.clk(clk), .write_en(regwrite), .rega(reg1), .regb(reg2), .wreg(wreg), .writedata(res), .read1(read1), .read2(read2));
 imem imem_test(.pc(pc), .instruction(instruction));
-control control_test(.opcode(opcode), .jump(jump), .memwrite(memwrite), .regwrite(regwrite));
-aluctrl aluctrl_test(.func(func), .ALU_Code(ALU_op));
+control control_test(.opcode(opcode), .jump(jump), .branch(branch), .memwrite(memwrite), .regwrite(regwrite));
+aluctrl aluctrl_test(.opcode(opcode),.func(func), .ALU_Code(ALU_Code));
 
 
 
@@ -48,7 +49,6 @@ aluctrl aluctrl_test(.func(func), .ALU_Code(ALU_op));
 always @(posedge clk) 
 begin 
     
-    $monitor("%d",read1);
     pc = pc + 1;
     #2;
     if(pc > 3) 
