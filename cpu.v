@@ -49,11 +49,12 @@ aluctrl aluctrl_test(.opcode(opcode),.func(func), .ALU_Code(ALU_Code));
 
 
 
-always @(posedge clk) 
+always @(posedge clk)
+//may have to be negedge 
 begin 
     
     pc = pc + 1;
-    #2;
+    $display("pc : %b instruction : %b", pc, instruction);
     if(pc > 3) 
     $finish;
     

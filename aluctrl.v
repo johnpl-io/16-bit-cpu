@@ -11,7 +11,7 @@ begin
     begin    
     case(func)
     4'b0000: begin ALU_Code =3'b000; 
-    $display("hello"); end
+   /* $display("hello"); */ end
     4'b0001: ALU_Code = 3'b001; //sub
     4'b0100: ALU_Code = 3'b100; //and
     4'b0101: ALU_Code = 3'b101; //or

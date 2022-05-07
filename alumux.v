@@ -10,7 +10,7 @@ module alumux(
      1'b0: alumuxout =read2;
  
      1'b1: begin alumuxout = {9'b0,immediate};  
-     $display("%b", alumuxout);
+  
      end  
 
      endcase
