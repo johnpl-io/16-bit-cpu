@@ -55,7 +55,7 @@ begin
     
     pc = pc + 1;
     $display("pc : %b instruction : %b", pc, instruction);
-    if(pc > 3) 
+    if(pc == 3) 
     $finish;
     
 end
