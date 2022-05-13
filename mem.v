@@ -10,9 +10,12 @@ reg [15:0] ram [0:255];
 
 always @ (posedge clk)
     begin
-        if (we)
+        if (we) begin
+        $display("%b %b", data_in, address);
             ram[address] <= data_in;
+        end
         data_out <= ram[address];
+        
     end
 
 endmodule
