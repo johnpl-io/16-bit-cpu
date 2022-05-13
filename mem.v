@@ -1,7 +1,7 @@
 module mem (
     input clk,
     input we,
-    input [8:0] address,
+    input [15:0] address,
     input [15:0] data_in,
     output reg [15:0] data_out
 );
