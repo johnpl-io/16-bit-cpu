@@ -60,13 +60,13 @@ always @(posedge clk)
 //may have to be negedge 
 begin 
      $display("pc : %b instruction : %b", pc, instruction);
-   if(jump == 1) 
+   if(jump  || (branch && isZero)) 
    begin 
     pc = immediate;
    end else begin 
        pc = pc + 1;
    end
-   if (pc == 3)
+   if (pc == 5)
    $finish;
     
 end

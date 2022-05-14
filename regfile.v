@@ -19,10 +19,11 @@ initial begin
 end
 always @( posedge clk )
 begin 
-    $monitor("reg 0: %d \nreg 1: %d \nreg 2: %d \nreg 3: %d\n", reg8[0], reg8[1], reg8[2], reg8[3]);
+   
     if(write_en /* && wreg != 0 */) begin
     reg8[wreg] <= writedata;
     end
+     $monitor("reg 0: %d \nreg 1: %d \nreg 2: %d \nreg 3: %d\n", reg8[0], reg8[1], reg8[2], reg8[3]);
     
 end
 assign read1 = reg8[rega];
