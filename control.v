@@ -64,8 +64,8 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
     reg_dest = 0;
     memtoreg = 0;
     end
-    3'b110: //beq
-    begin 
+     3'b110: //beq
+     begin
     jump = 0;
     branch = 1;
     memwrite = 0;
@@ -73,6 +73,7 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
     aluop = 0;
     reg_dest = 0;
     memtoreg = 0;
+    end
      endcase
      
  end
