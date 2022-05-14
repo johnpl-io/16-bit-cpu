@@ -66,7 +66,7 @@ begin
    end else begin 
        pc = pc + 1;
    end
-   if (pc == 5)
+   if (instruction == 16'b1111111111111111)
    $finish;
     
 end
