@@ -59,7 +59,7 @@ memmux memmux_test(.data_from_mem(mem_out), .alu_result(res), .memtoreg(memtoreg
 always @(posedge clk)
 //may have to be negedge 
 begin 
-     $display("pc : %b instruction : %b", pc, instruction);
+     $display("pc : %b instruction : %b branch %b isZero %b", pc, instruction, branch, isZero);
    if(jump  || (branch && isZero)) 
    begin 
     pc = immediate;

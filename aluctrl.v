@@ -25,6 +25,7 @@ begin
     3'b010: ALU_Code = 3'b001; //subi
     3'b011: ALU_Code = 3'b000; //st
     3'b100: ALU_Code = 3'b000; //ld
+    3'b110: ALU_Code = 3'b001; //beq
     endcase
 
 end
