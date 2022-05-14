@@ -3,7 +3,7 @@ module mem (
     input we,
     input [15:0] address,
     input [15:0] data_in,
-    output reg [15:0] data_out
+    output [15:0] data_out
 );
 
 reg [15:0] ram [0:255];
@@ -14,9 +14,10 @@ always @ (posedge clk)
         $display("%b %b", data_in, address);
             ram[address] <= data_in;
         end
-        data_out <= ram[address];
-        
+        $monitor(" ram %b ", ram[0]);
     end
+    assign data_out = ram[address];
+      
 
 endmodule
 

@@ -34,7 +34,18 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
      reg_dest = 1;
      memtoreg = 0;
      end
+    3'b011: //st
+     begin 
+     jump = 0;
+     branch = 0;
+     memwrite = 1;
+     regwrite = 0;
+     aluop = 1;
+     reg_dest = 1;
+     memtoreg = 0;
+     end
      endcase
+     
  end
 
 endmodule

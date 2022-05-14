@@ -22,7 +22,7 @@ begin
     if(write_en /* && wreg != 0 */) begin
     reg8[wreg] <= writedata;
     end
-    $monitor("reg 0 %d reg2 %d", reg8[0], reg8[2]);
+    $monitor("reg: 0 %d\n reg 1: %d\n reg2: %d\n reg3: %d\n", reg8[0], reg8[1], reg8[2], reg8[3]);
 end
 assign read1 = reg8[rega];
 assign read2 = reg8[regb];
