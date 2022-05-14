@@ -23,7 +23,8 @@ begin
     end
     3'b001: ALU_Code = 3'b000; //addi
     3'b010: ALU_Code = 3'b001; //subi
-    3'b011: ALU_Code = 3'b011;
+    3'b011: ALU_Code = 3'b000; //st
+    3'b100: ALU_Code = 3'b000; //ld
     endcase
 
 end

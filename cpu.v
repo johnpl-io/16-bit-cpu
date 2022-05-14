@@ -59,7 +59,7 @@ always @(posedge clk)
 begin 
      $display("pc : %b instruction : %b", pc, instruction);
     pc = pc + 1;
-    if(pc == 3)
+    if(pc == 5)
     $finish;
     
 end
