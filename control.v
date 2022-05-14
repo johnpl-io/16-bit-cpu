@@ -54,6 +54,25 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
     reg_dest = 1;
     memtoreg = 1;
     end
+    3'b101: //jump
+    begin  
+    jump = 1;
+    branch = 0;
+    memwrite = 0;
+    regwrite = 0;
+    aluop = 0;
+    reg_dest = 0;
+    memtoreg = 0;
+    end
+    3'b110: //beq
+    begin 
+    jump = 0;
+    branch = 1;
+    memwrite = 0;
+    regwrite = 0;
+    aluop = 0;
+    reg_dest = 0;
+    memtoreg = 0;
      endcase
      
  end

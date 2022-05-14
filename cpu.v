@@ -32,6 +32,7 @@ wire [15:0] alumuxout;
 wire [2:0] reg_result;
 wire [15:0] mem_out;
 wire [15:0] memmuxresult;
+wire [12:0] jumpaddr;
 //decoding 
 assign opcode = instruction[15:13];
 assign rs = instruction[12:10];
@@ -39,6 +40,7 @@ assign rt = instruction[9:7];
 assign rd = instruction[6:4];
 assign func = instruction[3:0];
 assign immediate = instruction[6:0];
+assign jumpaddr = instruction[12:0];
 
 
 alu alu_test(.A(read1), .B(alumuxout), .ALU_Code(ALU_Code), .ALU_Out(res), .Carry(Carry), .isZero(isZero));
@@ -58,9 +60,14 @@ always @(posedge clk)
 //may have to be negedge 
 begin 
      $display("pc : %b instruction : %b", pc, instruction);
-    pc = pc + 1;
-    if(pc == 5)
-    $finish;
+   if(jump == 1) 
+   begin 
+    pc = immediate;
+   end else begin 
+       pc = pc + 1;
+   end
+   if (pc == 10)
+   $finish;
     
 end
 initial begin
