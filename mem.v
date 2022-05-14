@@ -14,10 +14,9 @@ always @ (posedge clk)
    //     $display("%b %b", data_in, address);
             ram[address] <= data_in;
         end
-        $monitor("ram [0]: %b \nram [1]: %b\n ", ram[0], ram[1]);
+     //   $monitor("ram [0]: %b \nram [1]: %b\n ", ram[0], ram[1]);
     end
     assign data_out = ram[address];
-      
 
 endmodule
 
