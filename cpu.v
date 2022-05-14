@@ -66,7 +66,7 @@ begin
    end else begin 
        pc = pc + 1;
    end
-   if (pc == 10)
+   if (pc == 3)
    $finish;
     
 end
