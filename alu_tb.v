@@ -1,3 +1,4 @@
+`include "alu.v"
 `timescale 1ns / 10ps 
 module alu_tb();
 reg [15:0] a,b;
@@ -11,12 +12,12 @@ alu alu_test(.A(a), .B(b), .ALU_Code(ctrl), .ALU_Out(res), .Carry(Carry), .isZer
 
    initial // initial block executes only once
         begin
-            $monitor("sum %d", res);
+            $monitor("result %d", res);
 
 
-            a = 8'd2;
-            b = 8'd5;
-            ctrl = 3'b000;
+            a = 8'd5;
+            b = 8'd2;
+            ctrl = 3'b011;
           
 
 

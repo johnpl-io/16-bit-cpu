@@ -17,10 +17,12 @@ begin
     4'b0101: ALU_Code = 3'b101; //or
     4'b0110: ALU_Code = 3'b110; //not 
     4'b0111: ALU_Code = 3'b111; //xor
+    4'b0011: ALU_Code = 3'b011; //slt
 
     endcase 
     end
     3'b001: ALU_Code = 3'b000; //addi
+    3'b010: ALU_Code = 3'b001; //subi
     endcase
 
 end

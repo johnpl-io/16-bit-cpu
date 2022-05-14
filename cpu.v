@@ -59,9 +59,6 @@ always @(posedge clk)
 begin 
      $display("pc : %b instruction : %b", pc, instruction);
     pc = pc + 1;
-   if(isZero == 0)
-   #10
-    $display("yo");
     if(pc == 3)
     $finish;
     
