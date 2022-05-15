@@ -1,2 +1,2 @@
 #!/bin/bash
- tr -d "-" < test.txt | tee code.txt
+ tr -d "-" < precode.txt | tee code.txt

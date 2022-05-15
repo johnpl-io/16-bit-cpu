@@ -1,8 +1,9 @@
     ADDI X2, XZR, #1    //Set X2 to be 1
     ADDI X5, XZR, #1    //Sets counts to start at 1
     ADDI X6, XZR, #1    //Sets X6 to ve zero to check later
+    ADDI x0, XZR, #7    //Sets X0 to the fib number we want to calculate
 FIB:
-    ADD  X3, X2, X1     //X3 equal to two previous answers
+    ADD  X3, X2, X1     //X3 (result) equal to two previous answers
     ADD  X1, X2, XZR    //X1 = X2
     ADD  X2, X3, XZR    //X2 = X3
     ADDI X5, X5, #1     //Adds 1 to the count

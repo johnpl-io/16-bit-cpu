@@ -17,7 +17,7 @@ begin
 case(ALU_Code)
     3'b000: {carry,Result} = A + B;
     3'b001: Result = A + (~B+1);    //SUB
-    3'b010: Result = A>>B;          //LSL
+    3'b010: Result = A<<B;          //LSL
     3'b011: Result = A < B;         //Set Less Than
     3'b100: Result = A & B;         //AND
     3'b101: Result = A | B;         //A or B
