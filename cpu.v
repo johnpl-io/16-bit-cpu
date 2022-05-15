@@ -14,6 +14,7 @@ wire [15:0] instruction;
 reg clk;
 reg [2:0] ctrl;
 reg [15:0] pc;
+reg [15:0] count;
 wire [15:0] res;
 wire Carry;
 wire isZero;
@@ -68,11 +69,14 @@ begin
    end
    if (instruction == 16'b1111111111111111)
    $finish;
+//   count = count +1;
+
     
 end
 initial begin
 clk = 0;
 pc = 0;
+count = 0;
 
 $dumpfile("out.vcd");
 $dumpvars(0,clk, res);
