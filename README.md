@@ -5,11 +5,22 @@
 This processor handles instructions that are 16 bit in lengths. This was chosen to allow for flexibility in creating an RISC-based processor that was inspired by MIPS. The Data-Width of the ALU is also 16 bits in length, allowing the processor to be considered 16 
 bit. There are 8 registers in total ```X0-X7``` which each can hold 16 bits of data. This means that each register is represented in 3 bits. This also means that a register Opcodes are consitently 3 bit in length, no matter the instruction given to the processor. The processor supports three types of instruction ```r```, ```i```,  and ```j```. ``r`` contains all instructions that do not require an immediate value and deal with direct manipulation of registers. All instructions of the ``r`` type are ```000``` which allows for a simpler control with more details of this design decision in the control section. ```i``` instructions handle immediate logical operations with registers but also include loading and storing. This was chosen as both loading and storing and traditional immediate instructions add a register to an offset, allowing for easier decoding of instructions. Following this notion, ```i``` also encorporates branching if equal to. ```j``` is reserved for a single instruction, ``J`` which includes jumping to an unconditional jump to an address in instruction memory. 
 
+```PUT the image here```
+
+As seen above, the use of `000` for all ``r`` type opcodes allows for additional instructions with only 3 bits of opcode avaiablaity. To allow for easy decoding, R[rs] is always bits 12-10 in an instruction as it is always and ALU operand. The other operand is decided by the Control.
+
+#### Register Name and Conventions 
+| Name  | Number | Use |
+| :-------------: | :-------------: | :-------------: |
+|```X0-X6```  | 0-6  | Random Purpose Registers |
+| ```X7``` | 7  | Always Zero |
 
 ## Components
-
 ### Instruction Memory
+When the computer is ran, instruction memory is preloaded with the proper instructions that are to be performed. The program counter, which starts at 0, is inputed into the read address of instruction memory and instruction memory returns the 16 bit instruction at the designed address.
+Instruction memory is 256 lines long with each line being 2 bytes. This is because each instruction is 16 bit. This also means instructions of at most 256 lines are supported. The 16 bit output instruction is decoded by Control and multiplexers. The implementation of instruction memory is in ```imem.v```.
 ### Register File
+The Register File is a asynchronous memory unit that is designed to emulate the fast memory that is stored in CPU registers. Since there are only 8 addressable registers, there are only 8 registers initialized in the file. 
 ### ALU
 #### ALU Control
 ### Data Memory
@@ -56,6 +67,7 @@ FIB:
     ADDI X5, X5, #1     //Adds 1 to the count
     SLT  X4, X5, X0     //Checks if the count is less than the input
     BEQ  X4, X6, FIB    //If The count is less than the input, the program branches to fib
+HALT                    //Stops the program
 
 ```
 #### Machine Code 
@@ -88,6 +100,7 @@ Since the first sample program did not show loading, storing, or an unconditiona
 Skip:
     LD   X3, [X2, #0]   //Loads 3 since it skipped storing 4
     LD   X4, [X2, #1]   //Loads 5
+HALT                    //Stops the Program
 ```
 
 #### Machine Code
@@ -105,6 +118,37 @@ Skip:
 ```
 
 ### Sample Program 3
-This sample program is meant to test all of the alu opperations to show that they work.
+This sample program is meant to test all of the alu opperations that were not shown in the previous two examples, to show that they work.
+
+#### Assembly Code
+```
+ADDI X0, XZR, #13   //Sets X0 to be 1101
+ADDI X1, XZR, #2    //Sets X1 to ve 0010
+ADD  X2, X0,  X1    //X2 = X0 + X1, should be 1111
+SUB  X2, X0,  X1    //X2 = X0 - X1, should be 1011
+LSL  X2, X0,  X1    //X2 = X0 << X1, should be 110100
+SLT  X2, X0,  X1    //Test is X0 < X1, should be 0
+AND  X2, X0,  X1    //X2 = X0 & X1, should be 0000
+OR   X2, X0,  X1    //X2 = X0 | X1, should be 1111
+Not  X2, X0         //X2 = !X1, should be 0010 (leading 0s become 1s)
+XOR  X2, X0,  X1    //X2 = X0 ^ X1, should be 1111
+HALT                //Stops the program
+```
+
+#### Machine Code
+```
+0011110000001101
+0011110010000010
+0000000010100000
+0000000010100001
+0000000010100010
+0000000010100011
+0000000010100100
+0000000010100101
+0000001110100110
+0000000010100111
+1111111111111111
+```
+
 # time diagrams
 

@@ -9,4 +9,4 @@ FIB:
     ADDI X5, X5, #1     //Adds 1 to the count
     SLT  X4, X5, X0     //Checks if the count is less than the input
     BEQ  X4, X6, FIB    //If The count is less than the input, the program branches to fib
-
+HALT                    //Stops the program
