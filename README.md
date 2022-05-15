@@ -3,7 +3,7 @@
 
 ### Explanation of design
 This processor handles instructions that are 16 bit in lengths. This was chosen to allow for flexibility in creating an RISC-based processor that was inspired by MIPS. The Data-Width of the ALU is also 16 bits in length, allowing the processor to be considered 16 
-bit. There are 8 registers in total ```X0-X7``` which each can hold 16 bits of data. This means that each register is represented in 3 bits. This also means that a register Opcodes are consitently 3 bit in length, no matter the instruction given to the processor. The processor supports three types of instruction ```r```, ```i```,  and ```j```. ``r`` contains all instructions that do not require an immediate value and deal with direct manipulation of registers. All instructions of the ``r`` type are ```000``` which allows for a simpler control with more details of this design decision in the control section. ```i``` instructions handle immediate logical operations with registers but also include loading and storing. This was chosen as both loading and storing and traditional immediate instructions add a register to an offset, allowing for easier decoding of instructions. Following this notion, ```i``` also encorporates branching if equal to. ```j``` is reserved for a single instruction, ``J`` which includes jumping to an unconditional jump to an address in instruction memory. 
+bit. There are 8 registers in total ```X0-X7``` which each can hold 16 bits of data. This means that each register is represented in 3 bits. This also means that a register Opcodes are consitently 3 bit in length, no matter the instruction given to the processor. The processor supports three types of instruction ```r```, ```i```,  and ```j```. ``r`` contains all instructions that do not require an immediate value and deal with direct manipulation of registers. All instructions of the ``r`` type are ```000``` which allows for a simpler control with more details of this design decision in the control section. ```i``` instructions handle immediate logical operations with registers but also include loading and storing. This was chosen as both loading and storing and traditional immediate instructions add a register to an offset, allowing for easier decoding of instructions. Following this notion, ```i``` also encorporates branching if equal to. ```j``` is reserved for a single instruction, ``J`` which includes jumping to an unconditional jump to an address in instruction memory.
 
 <img width="1075" alt="ISA" src="https://user-images.githubusercontent.com/100248274/168493294-45904a36-2937-47e2-abb1-b45c064e9134.png">
 
@@ -20,11 +20,20 @@ As seen above, the use of `000` for all ``r`` type opcodes allows for additional
 When the computer is ran, instruction memory is preloaded with the proper instructions that are to be performed. The program counter, which starts at 0, is inputed into the read address of instruction memory and instruction memory returns the 16 bit instruction at the designed address.
 Instruction memory is 256 lines long with each line being 2 bytes. This is because each instruction is 16 bit. This also means instructions of at most 256 lines are supported. The 16 bit output instruction is decoded by Control and multiplexers. The implementation of instruction memory is in ```imem.v```.
 ### Register File
-The Register File is a asynchronous memory unit that is designed to emulate the fast memory that is stored in CPU registers. Since there are only 8 addressable registers, there are only 8 registers initialized in the file. 
+The Register File is a asynchronous memory unit that is designed to emulate the fast memory that is stored in CPU registers. Since there are only 8 addressable registers, there are only 8 registers initialized in the file. The register file recieves 4 inputs, ```Read register 1```, ```Read register 2```, ```Read register 2```, ```Write Register```, and```Write data```. ```Write Register```, and ```Write data``` are both decided by the control and will be explained in the control section. ```Read register 1``` is always ```instruction ``` 
 ### ALU
 #### ALU Control
 ### Data Memory
 ### Control
+| Opcode | Command | Jump | branch | memwrite | regwrite | alusrc | reg_dest | memtoreg |
+|--------|:---------:|------|--------|----------|----------|--------|----------|----------|
+| 000    | R-Type  | 0    | 0      | 0        | 1        | 0      | 0        | 0        |
+| 001    | ADDI    | 0    | 0      | 0        | 1        | 1      | 1        | 0        |
+| 010    | SUBI    | 0    | 0      | 0        | 1        | 1      | 1        | 0        |
+| 011    | ST      | 0    | 0      | 1        | 0        | 1      | 1        | 0        |
+| 100    | LD      | 0    | 0      | 0        | 1        | 1      | 1        | 1        |
+| 101    | Jump    | 1    | 0      | 0        | 0        | 0      | 0        | 0        |
+| 101    | BEQ     | 0    | 1      | 0        | 0        | 0      | 0        | 0        |
 ## Data Path
 
 ## 

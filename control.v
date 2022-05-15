@@ -4,7 +4,7 @@ output reg jump, branch, memwrite, regwrite, alusrc, reg_dest, memtoreg );
  always @(*)
  begin 
      case (opcode)
-     3'b000:  //d type 
+     3'b000:  //r type 
      begin 
      jump = 0;
      branch = 0;
@@ -15,7 +15,7 @@ output reg jump, branch, memwrite, regwrite, alusrc, reg_dest, memtoreg );
      memtoreg = 0;
      end
      3'b001:
-    begin 
+    begin   //ADDI
      jump = 0;
      branch = 0;
      memwrite = 0;
@@ -25,7 +25,7 @@ output reg jump, branch, memwrite, regwrite, alusrc, reg_dest, memtoreg );
      memtoreg = 0;
      end
      3'b010: 
-     begin 
+     begin  //SUBI
      jump = 0;
      branch = 0;
      memwrite = 0;
