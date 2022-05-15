@@ -1,6 +1,6 @@
 module control(
 input [2:0] opcode, 
-output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
+output reg jump, branch, memwrite, regwrite, alusrc, reg_dest, memtoreg );
  always @(*)
  begin 
      case (opcode)
@@ -10,7 +10,7 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
      branch = 0;
      memwrite = 0;
      regwrite = 1;
-     aluop = 0;
+     alusrc = 0;
      reg_dest = 0;
      memtoreg = 0;
      end
@@ -20,7 +20,7 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
      branch = 0;
      memwrite = 0;
      regwrite = 1;
-     aluop = 1;
+     alusrc = 1;
      reg_dest = 1;
      memtoreg = 0;
      end
@@ -30,7 +30,7 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
      branch = 0;
      memwrite = 0;
      regwrite = 1;
-     aluop = 1;
+     alusrc = 1;
      reg_dest = 1;
      memtoreg = 0;
      end
@@ -40,7 +40,7 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
      branch = 0;
      memwrite = 1;
      regwrite = 0;
-     aluop = 1;
+     alusrc = 1;
      reg_dest = 1;
      memtoreg = 0;
      end
@@ -50,7 +50,7 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
     branch = 0;
     memwrite = 0;
     regwrite = 1;
-    aluop = 1;
+    alusrc = 1;
     reg_dest = 1;
     memtoreg = 1;
     end
@@ -60,7 +60,7 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
     branch = 0;
     memwrite = 0;
     regwrite = 0;
-    aluop = 0;
+    alusrc = 0;
     reg_dest = 0;
     memtoreg = 0;
     end
@@ -70,7 +70,7 @@ output reg jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg );
     branch = 1;
     memwrite = 0;
     regwrite = 0;
-    aluop = 0;
+    alusrc = 0;
     reg_dest = 0;
     memtoreg = 0;
     end

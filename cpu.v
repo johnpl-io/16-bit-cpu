@@ -24,7 +24,7 @@ wire [2:0] ALU_Code;
 wire [2:0] opcode;
 wire [3:0] func;
 
-wire jump, branch, memwrite, regwrite, aluop, reg_dest, memtoreg;
+wire jump, branch, memwrite, regwrite, alusrc, reg_dest, memtoreg;
 reg write_en;
 reg [15:0] writedata;
 wire [15:0] read1, read2;
@@ -48,8 +48,8 @@ alu alu_test(.A(read1), .B(alumuxout), .ALU_Code(ALU_Code), .ALU_Out(res), .Carr
 regfilemux regfilemux_test(.reg_dest(reg_dest), .rt(rt), .rd(rd), .reg_result(reg_result));
 regfile reg_test(.clk(clk), .write_en(regwrite), .rega(rs), .regb(rt), .wreg(reg_result), .writedata(memmuxresult), .read1(read1), .read2(read2));
 imem imem_test(.pc(pc), .instruction(instruction));
-alumux alumux_test(.immediate(immediate), .read2(read2), .aluop(aluop), .alumuxout(alumuxout));
-control control_test(.opcode(opcode), .jump(jump), .branch(branch), .memwrite(memwrite), .regwrite(regwrite), .aluop(aluop), .reg_dest(reg_dest), .memtoreg(memtoreg));
+alumux alumux_test(.immediate(immediate), .read2(read2), .alusrc(alusrc), .alumuxout(alumuxout));
+control control_test(.opcode(opcode), .jump(jump), .branch(branch), .memwrite(memwrite), .regwrite(regwrite), .alusrc(alusrc), .reg_dest(reg_dest), .memtoreg(memtoreg));
 aluctrl aluctrl_test(.opcode(opcode),.func(func), .ALU_Code(ALU_Code));
 mem mem_test(.clk(clk), .we(memwrite), .address(res), .data_in(read2), .data_out(mem_out));
 memmux memmux_test(.data_from_mem(mem_out), .alu_result(res), .memtoreg(memtoreg), .memmuxout(memmuxresult));
