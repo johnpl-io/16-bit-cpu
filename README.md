@@ -26,7 +26,7 @@ The Register File is a asynchronous memory unit that is designed to emulate the 
 ### Data Memory
 ### Control
 | Opcode | Command | Jump | branch | memwrite | regwrite | alusrc | reg_dest | memtoreg |
-|--------|:---------:|------|--------|----------|----------|--------|----------|----------|
+|:--------:|:---------:|:------:|:--------:|:----------:|:----------:|:--------:|:----------:|:----------:|
 | 000    | R-Type  | 0    | 0      | 0        | 1        | 0      | 0        | 0        |
 | 001    | ADDI    | 0    | 0      | 0        | 1        | 1      | 1        | 0        |
 | 010    | SUBI    | 0    | 0      | 0        | 1        | 1      | 1        | 0        |

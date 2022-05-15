@@ -63,6 +63,9 @@ begin
      $display("pc : %b instruction : %b branch %b isZero %b", pc, instruction, branch, isZero);
    if(jump  || (branch && isZero)) 
    begin 
+     if(jump)
+     pc = jumpaddr;
+     if(branch)
     pc = immediate;
    end else begin 
        pc = pc + 1;
