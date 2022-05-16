@@ -2,8 +2,8 @@
 ## Instruction Set Architecture
 
 ### Explanation of design
-This processor handles instructions that are 16 bit in lengths. This was chosen to allow for flexibility in creating an RISC-based processor that was inspired by MIPS. The Data-Width of the ALU is also 16 bits in length, allowing the processor to be considered 16 
-bit. There are 8 registers in total ```X0-X7``` which each can hold 16 bits of data. This means that each register is represented in 3 bits. This also means that a register Opcodes are consitently 3 bit in length, no matter the instruction given to the processor. The processor supports three types of instruction ```R```, ```I```,  and ```J```. ``r`` contains all instructions that do not require an immediate value and deal with direct manipulation of registers. All instructions of the ``R`` type are ```000``` which allows for a simpler control with more details of this design decision in the ALU Control section. ```I``` instructions handle immediate logical operations with registers but also include loading and storing. This was chosen as both loading and storing and traditional immediate instructions add a register to an offset, allowing for easier decoding of instructions. Following this notion, ```I``` also encorporates branching if equal to. ```J``` is reserved for a single instruction, ``Jump`` which includes jumping to an unconditional jump to an address in instruction memory.
+This processor handles instructions that are 16 bit in length. This was chosen to allow for flexibility in creating a RISC-based processor that was inspired by MIPS. The data-width of the ALU is also 16 bits in length, allowing the processor to be considered 16 
+bit. There are 8 registers in total, ```X0-X7```, which each hold 16 bits of data. This means that each register is represented in 3 bits. Opcodes are consitently 3 bit in length, no matter the instruction given to the processor. The processor supports three types of instruction ```R```, ```I```,  and ```J```. ``r`` contains all instructions that do not require an immediate value and deal with direct manipulation of registers. All instructions of the ``R`` type are ```000``` which allows for a simpler control with more details of this design decision in the ALU Control section. ```I``` instructions handle immediate logical operations with registers but also include loading and storing. This was chosen as both loading and storing and traditional immediate instructions add a register to an offset, allowing for easier decoding of instructions. Following this notion, ```I``` also encorporates branching if equal to. ```J``` is reserved for a single instruction, ``Jump`` which includes jumping to an unconditional jump to an address in instruction memory. The PC is 16 bits long so PC is incremented by 1 after each non branch/jump instruction.
 
 <img width="1075" alt="ISA" src="https://user-images.githubusercontent.com/100248274/168493294-45904a36-2937-47e2-abb1-b45c064e9134.png">
 
@@ -12,7 +12,7 @@ As seen above, the use of `000` for all ``r`` type opcodes allows for additional
 #### Register Name and Conventions 
 | Name  | Number | Use |
 | :-------------: | :-------------: | :-------------: |
-|```X0-X6```  | 0-6  | Random Purpose Registers |
+|```X0-X6```  | 0-6  | General Purpose Registers |
 | ```X7``` | 7  | Always Zero |
 
 
@@ -25,7 +25,7 @@ The Register File is a memory unit that is designed to emulate the fast memory t
 
 
 ### Control
-The Control recieves the opcode, ```instruction [16-14]``` and outputs 1 bit control signals to determine which components of the CPU should be used and what values they should receive. There are 7 control signals which are denoted below. 
+The Control recieves the opcode, ```instruction [15-13]``` and outputs 1 bit control signals to determine which components of the CPU should be used and what values they should receive. There are 7 control signals which are denoted below. 
 | Opcode | Command | Jump | Branch | MemWrite | RegWrite | ALUsrc | RegDest | MemtoReg |
 |:--------:|:---------:|:------:|:--------:|:----------:|:----------:|:--------:|:----------:|:----------:|
 | 000    | R-Type  | 0    | 0      | 0        | 1        | 0      | 0        | 0        |
@@ -75,7 +75,7 @@ The datapath allows for all of the components of the computer to be connected. I
 Instructions are also decoding in ```cpu.v``` as wires are assigned for different components of the instruction and through the Control and muxes. This will be more explicit in the diagram section.
 
 ### Data Memory
-The data memory recieves an input of a 16 bit address from the ALU result and where data is written. This means that there as 16 bit of addressable memory 65536 lines of memory in which each is 2 bytes each. However, since only ```do it here```
+The data memory recieves an input of a 16 bit address from the ALU result and is where data outside of registers can be written and read from. This means that there are 16 bits of addressable memory, 65536 lines of memory in which each is 2 bytes each. However, since the ``LD`` and ``ST`` only supports 7 bits of immediate shift as well as ``ADDI`` also only supporting a 7 bit immediate. Loading address in memory that took more than 8 bits to address would take multiple insturctions to load addresses and shift amounts. Also, 256 different spots in memory to address is already much more than needed for the programs which were run on this processor.
 
 ## Visual Diagram
 ### Diagram of the Processor 
@@ -85,7 +85,7 @@ The data memory recieves an input of a 16 bit address from the ALU result and wh
 #### ```ADD```
 <img  alt="ISA" src="add.png">
 
-```Instruction [16-14]```, the opcode is sent to the controller and realized as ```000```. This indicates that ```RegWrite``` should be the only control signal set to high. This allows for ```rd``` or `Instruction [6-4]` to be sent to the write register as the multiplixer will allow for it to pass as `RegDest` is low. `ALUSrc` is low making `R[rt]` (which is `Read data 1`) to be sent to the second ALU operand by a multiplexer. The ALU Result is then put into the ```Write data``` input for the register file as `MemtoReg` is low.
+```Instruction [15-13]``` (opcode)  is sent to the controller and realized as ```000```. This indicates that ```RegWrite``` should be the only control signal set to high. This allows for ```rd``` or `Instruction [6-4]` to be sent to the write register as the multiplixer will allow for it to pass as `RegDest` is low. `ALUSrc` is low making `R[rt]` (which is `Read data 1`) to be sent to the second ALU operand by a multiplexer. The ALU control uses `Instruction [15-13]` and `Instruction[3-0]` to determine what ALU operation should be performed. In this case, function is `0000` so the ALU Operation is `000` or `ADD`. The ALU Result is then put into the ```Write data``` input for the register file as `MemtoReg` is low.
 
 
 ### I-type instruction
@@ -93,20 +93,31 @@ The data memory recieves an input of a 16 bit address from the ALU result and wh
 #### ```ADDI```
 <img  alt="ISA" src="addi.png">
 
+```Instruction [15-13]``` (opcode)  is sent to the controller and realized as ```001```. This causes `RegDest`, `ALUSrc`, and `RegWrite` to be set to high. This causes `rt` to be set to the Write register for the register file and the sign-extended immediate from `Instruction [6-0]` becomes the second ALU operand as the multiplixer before the ALU becomes 1. In addition, the destination of the operation is set to `rt` as the type is an immediate which is indicated by `RegDest` being high. he ALU control uses `Instruction [15-13]` and `Instruction [3-0]` to determine that an add operation should occur in the ALU. Since memory is not written to or has data taken from it, the ALU Result is stored in the write register `rt` which is the operation of `R[rs] + immediate`.
+
+
 #### ```ST```
 <img  alt="ISA" src="st.png">
+
+`RegDest`, `MemWrite`, and `ALUSrc` are all set to high meaning the operands of the ALU are the same as `ADDI` example. However, the addition of `MemWrite` being high forces `R[rt]` to be written to the address in data memory indicated by ALU Result. Also, `RegWrite` is now low meaning nothing will be written to the write register.
 
 #### ```LD```
 <img  alt="ISA" src="load.png">
 
+This has the same path as the previous `ADDI` except for what is written to `rt`. This is why it was also chosen to be an immediate. `MemtoReg` is now high. This causes the ALU Result to be the data memory address and the data written to `rt` now becomes what is at the memory address.
 
 #### ```BEQ```
 <img  alt="ISA" src="beq.png">
+
+`Branch` is high and the ALU operands become `R[rs]` and `R[rt]` as no other control signals that manipulate the second operand are high. The ALU Control produces as `001` or `SUB` operation which is performed and if the result is zero `isZero` becomes high. This goes into the and gate on the top right and both `branch` and `isZero` are high in the diagram meaning the or gate will output a high. Also, `branch` causes the multiplexer on the bottom left to output `Instruction [6-0]`. Since the input to the multiplixer inputing to the programming counter is 1, `Instruction [6-0]` (immediate) becomes the new PC executing a branch on equality.
+
 
 ### J-type instruction
 
 #### ```JUMP```
 <img  alt="ISA" src="jump.png">
+
+As `Jump` is high, the or gate will output a high signal. All the operations occuring in the processor are disregarded, and `branch` is low causing `Instruction [12-0]` to pass to the multiplixer inputing into the PC. Since this multiplixer recieves a high signal, `Instruction [12-0]` is free to pass into the PC and become the next PC instead of PC = PC + 1. 
 
 
 
@@ -232,7 +243,7 @@ HALT                //Stops the program
 ```
 
 ## Time Diagrams
-To show the process that the computer goes through when running each of the possible different types of commands, timming diagrams were made in GTKWave.
+To show the process that the computer goes through when running each of the possible different types of commands, timming diagrams were made in GTKWave. Because of how this processor was designed, each command takes one clock cycle to run, which is 40 ns. One thing to note is that the first command is only displayed for 20 ns on GTKWave since at 0 ns a falling edge occures.
 
 ### R-Type
 For this example ``X0`` is initialized to be 1, and ``X1`` is initialized as 2.
@@ -245,6 +256,9 @@ HALT
 #### Timing Diagram
 <img width="944" alt="R-type timing diagram" src="https://user-images.githubusercontent.com/100248274/168501494-1937c3f7-4ae3-4226-bf81-211febea02ec.png">
 
+At 0 ns, the command ``ADD X0, X1, X0`` is ran, the instructions and opcode are set to what they each should be for the command. Since this is an R-Type of instruction, the only flag that is on is the ``regwrite``. 
+
+At 20 ns, the next instruction is ran, this one being ``SUB X0, X1, X1``. One notable differences between this instruction and the last instuction is the last nibble of the ``instruction[15:0]`` being 0x1 instead of 0x0 since the function for ``SUB`` is 0001 instead of 0000. Another one is that ``rs[2:0]`` and ``rt[2:0]`` are fliped. Since both isntructions are an R-Type the ``opcode[2:0]`` remains the same.
 
 ### I-Type
 To display all the I type of instructions, a slight variation of sample program 2 will be used, replacing the uncondition jump with a branch if equal to.
@@ -266,6 +280,20 @@ HALT                    //Stops the Program
 #### Timing Diagram
 <img width="944" alt="I-Type timing diagram" src="https://user-images.githubusercontent.com/100248274/168501504-e4e1b8a7-8130-4b94-b72c-5c7c769aff15.png">
 
+At 0 ns, the instruction ``ADDI X0, XZR, #3`` is run. Since this, as well as all of the other instructions ran in this test program, the ``immediate[6:0]`` is set to the immediate in the instruction. For this instruction it is then summed with the zero register.
+
+At 20 ns, the next instruction is run. This instruction is very simmilar to the last except ``rt[2:0]`` and ``immediate[6:0]`` are changed.
+
+At 60 ns, ``ST X0, [X2, #0]`` is ran. Since this instruction writes to memory, the ``memwrite`` flag is high. ``immediate[6:0]`` is set to 0 since there is no shift. For this instruction ``res`` is equal to the location in memory that ``X0`` is stores in, this location is equal to the memory address inside ``X2`` plus the shift amount.
+
+At 100 ns, ``ST X1, [X2, #1]`` is ran. This instruction is very simmilar to the last instruct with ``rt[2:0]`` changing since a different register is being wrote to memory as well as ``immediate[6:0]`` changing since the shift amount is now 1 instead of 0.
+
+At 140 ns, ``BEQ X0, X0, SKIP`` is ran. Since this is a branch command, and the conditions needed to branch were met, the only flag to be high is ``branch``. In the instruction, it is suposed to branch to ``Skip`` which is line 7 of the program, because of this, the ``immediate[6:0]`` is equal to 7. One other thing to note is that the ``pc[15:0]`` for this command is equal to 4.
+
+At 160 ns, the command ``LD X3, [X2, #0]`` is ran. While the ``pc[15:0]`` for the last command was 4, it has now jumped up to 7 because the last line was a branch instruction. Since this command is a load ``memtoreg`` is high and ``mem_out[15:0]`` is equal to the value in memory that the load command is pointing to. Also, since the load command has no offset ``immediate[6:0]`` is set to 0.
+
+At 220 ns, the command ``LD X4, [X2, #0]`` is ran. Like the last command ``memtoreg`` is high since this command loads information from memory to a register. ``mem_out[15:0]`` is equal to 5 since this is the value stored at address ``X2`` with an offeset equal to the ``immediate[7:0]`` which is 1.
+
 
 ### J-Type
 For this example, ``X0`` is again preloaded with a 1 and ``X1`` is preloaded with a 2.0s
@@ -281,3 +309,7 @@ HALT
 
 #### Timing Diagram
 <img width="950" alt="J-Type timing diagram" src="https://user-images.githubusercontent.com/100248274/168501515-f6e895a5-e772-4c0a-a61e-fb38268f9d00.png">
+
+At 0 ns, the instruction ``J SKIP`` is ran. Two things to note about this instruction is that the ``jump`` flag is set to high, because it is a jump, and ``jumpaddr[12:0]`` is set to 2, since that is the location of ``SKIP``. 
+
+At 20 ns, the instruction ``ADD X0, X1, X0`` is ran. One thing to note is that the ``pc[15:0]`` jumps from 0 in the alst instruction, to 2 because of the jump. Since this command adds ``X0`` and ``X1`` the ``res[15:0]`` is equal to 3.
