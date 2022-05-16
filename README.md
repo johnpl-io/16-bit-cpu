@@ -1,4 +1,7 @@
 # 16-bit Computer in Verilog
+
+#### By John Pluchino and Eytan Hazi
+
 ## Instruction Set Architecture
 
 ### Explanation of design
