@@ -56,7 +56,6 @@ memmux memmux_test(.data_from_mem(mem_out), .alu_result(res), .memtoreg(memtoreg
 
 
 always @(posedge clk)
-//may have to be negedge 
 begin 
      $display("pc : %b instruction : %b ", pc, instruction);
    if(jump  || (branch && isZero)) 
@@ -70,7 +69,6 @@ begin
    end
    if (instruction == 16'b1111111111111111)
    $finish;
-//   count = count +1;
 
     
 end

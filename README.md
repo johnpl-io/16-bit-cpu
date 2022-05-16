@@ -5,6 +5,7 @@
 This processor handles instructions that are 16 bit in length. This was chosen to allow for flexibility in creating a RISC-based processor that was inspired by MIPS. The data-width of the ALU is also 16 bits in length, allowing the processor to be considered 16 
 bit. There are 8 registers in total, ```X0-X7```, which each hold 16 bits of data. This means that each register is represented in 3 bits. Opcodes are consitently 3 bit in length, no matter the instruction given to the processor. The processor supports three types of instruction ```R```, ```I```,  and ```J```. ``R`` contains all instructions that do not require an immediate value and deal with direct manipulation of registers. All instructions of the ``R`` type are ```000``` which allows for a simpler control (more details later). ```I``` type instructions handle immediate logical operations with registers but also includes loading, storing and branching which all do involve an immediate operations. This was chosen as both load, store, branching and traditional immediate instructions add a register to an offset, allowing for easier decoding of instructions.  ```J``` type is reserved for a single instruction, ``Jump``, which consists of an unconditional jump to an address in instruction memory. The PC is 16 bits long so PC is incremented by 1 after each non branch/jump instruction.
 ### ISA
+
 <img width="1075" alt="ISA" src="https://user-images.githubusercontent.com/100248274/168493294-45904a36-2937-47e2-abb1-b45c064e9134.png">
 
 As seen above, the use of `000` for all ``R`` type instructions allows for additional instructions while still have only 3 bits of opcode availability. To allow for easy decoding, `R[rs]` is always bits 12-10 in an instruction as it is always an ALU operand. The other operand is decided by the control. There are 4 bits for ```function``` and 6 bits for ```immediate```.
@@ -38,16 +39,16 @@ The control recieves the opcode, ```instruction [15-13]```, and outputs 1 bit co
 | 101    | Jump    | 1    | 0      | 0        | 0        | 0      | 0        | 0        |
 | 101    | BEQ     | 0    | 1      | 0        | 0        | 0      | 0        | 0        |
 
-Since all ```R``` instructions only write to a register, the same opcode is used for all of the instructions of this type 
+Since all ```R``` instructions only write to a register, the same opcode is used for all of the instructions of this type.
 
-| Control Signal | Assertion Effects |
+| Control Signal | Assertion Effect |
 |:--------:|:---------:|
 | Jump    | The PC will jump to the 13 bit address that is specified in the instruction. |
 | Branch    | isZero must also be asserted to allow for branching to the 7 bit immmediate.    | 
 | MemWrite    | Data memory can be written to.  |
-| RegWrite   | The Register File can be written too.     | 
-| ALUSrc    | ALUSrc puts the sign-extended 7 bit immediate into the second ALU operand, otherwise `rt` will be.    | 
-| RegDest   | RegDest allows for the write register of Register Memory to be set to ``rt``, otherwise it will ``rd``.   | 
+| RegWrite   | The register file can be written too.     | 
+| ALUSrc    | ALUSrc puts the sign-extended 7 bit immediate into the second ALU operand, otherwise it will be `R[rt]`.    | 
+| RegDest   | RegDest allows for the write register of the register file to be set to ``rt``, otherwise it will ``rd``.   | 
 |MemtoReg   | MemtoReg allows for the data read from memory to be the write data of the register file otherwise it is the ALU Result.    | 
 
 The implementation of the Control is in ```control.v```.
