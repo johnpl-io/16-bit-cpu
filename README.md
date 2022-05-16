@@ -49,22 +49,21 @@ Since all ```R``` instructions only write to a register, the same opcode is used
 | RegWrite   | The register file can be written too.     | 
 | ALUSrc    | ALUSrc puts the sign-extended 7 bit immediate into the second ALU operand, otherwise it will be `R[rt]`.    | 
 | RegDest   | RegDest allows for the write register of the register file to be set to ``rt``, otherwise it will ``rd``.   | 
-|MemtoReg   | MemtoReg allows for the data read from memory to be the write data of the register file otherwise it is the ALU Result.    | 
+|MemtoReg   | MemtoReg allows for the data read from data memory to be the write data of the register file otherwise it is the ALU Result.    | 
 
-The implementation of the Control is in ```control.v```.
+The implementation of the control is in ```control.v```.
 ### ALU
-The ALU accepts two 16 bit operands and returns a result and an ```isZero``` flag. ```isZero``` is asserted when the result from the ALU operation is zero. THis is implmented in ```alu.v```.
+The ALU accepts two 16 bit operands and returns a result and an ```isZero```. ```isZero``` is asserted when the result from the ALU operation is zero. The ALU performs subtraction in two's complement allowing for negative numbers. This also means the supported range of numbers stored on this computer is [-2^15 : 2^15 - 1]. This is implmented in ```./alu/alu.v```.
 #### ALU Control
-The ALU Control uses the opcode and function to determine the appropriate ALU operation. They are denoted below.
+The ALU Control uses the opcode and function to determine the appropriate ALU operation. These are denoted below.
 | opcode | function | ALU opcode | Operation Done |
 | :---: | :---: | :---: | :---: |
 | 000 | 0000 | 000 | ADD |
-| 000 | 0001 | 000 | SUB |
-| 000 | 0010 | 000 | NOT |
-| 000 | 0011 | 000 | SLT |
-| 000 | 0100 | 000 | AND|
-| 000 | 0101 | 000 | OR |
-| 000 | 0110 | 000 | NOT |
+| 000 | 0001 | 001 | SUB |
+| 000 | 0110 | 110 | NOT |
+| 000 | 0011 | 011 | SLT |
+| 000 | 0100 | 100 | AND|
+| 000 | 0101 | 101 | OR |
 | 000 | 0111 | 111 | XOR |
 | 001 | x | 000 | ADD |
 | 010 | x | 001 | SUB |
@@ -72,23 +71,23 @@ The ALU Control uses the opcode and function to determine the appropriate ALU op
 | 100 | x | 000 | ADD |
 | 110 | x| 001 | SUB |
 
-This is implemented in `aluctrl.v`.
+This is implemented in `./control/aluctrl.v`.
 ### Data Path
-The datapath allows for all of the components of the computer to be connected. It is implemented inside directly inside of the testbench ```cpu.v```.
-Instructions are also decoding in ```cpu.v``` as wires are assigned for different components of the instruction and through the Control and muxes. This will be more explicit in the diagram section.
+The datapath allows for all of the components of the computer to be connected. It is implemented directly inside of the testbench ```cpu.v```.
+Instructions are also decoded in ```cpu.v``` as wires are assigned for different components of the instruction and are put the control and muxes. This will be more explicit in the diagram section.
 
 ### Data Memory
-The data memory recieves an input of a 16 bit address from the ALU result and is where data outside of registers can be written and read from. This means that there are 16 bits of addressable memory, 65536 lines of memory in which each is 2 bytes each. However, since the ``LD`` and ``ST`` only supports 7 bits of immediate shift as well as ``ADDI`` also only supporting a 7 bit immediate. Loading address in memory that took more than 8 bits to address would take multiple insturctions to load addresses and shift amounts. Also, 256 different spots in memory to address is already much more than needed for the programs which were run on this processor.
+Data memory recieves an input of a 16 bit address from the ALU Result and is where data outside of registers can be written and read from. This means that there are 16 bits of addressable memory, 65536 lines of memory in which each is 2 bytes each. However, since ``LD``, ``ST`` and ``ADDI`` only support 7 bit immediates, loading address in memory that took more than 7 bits to address would take multiple insturctions to load/store registers which is why 256 lines of memory were chosen. Also, 256 different spots in memory to address is already much more than needed for the programs which were run on this processor.
 
 ## Visual Diagram
 ### Diagram of the Processor 
-<img  alt="ISA" src="./images/diagram.png">
+<img  alt="diagram" src="./images/diagram.png">
 
 ### R-type instruction
 #### ```ADD```
-<img  alt="ISA" src="./images/add.png">
+<img  alt="add" src="./images/add.png">
 
-```Instruction [15-13]``` (opcode)  is sent to the controller and realized as ```000```. This indicates that ```RegWrite``` should be the only control signal set to high. This allows for ```rd``` or `Instruction [6-4]` to be sent to the write register as the multiplixer will allow for it to pass as `RegDest` is low. `ALUSrc` is low making `R[rt]` (which is `Read data 1`) to be sent to the second ALU operand by a multiplexer. The ALU control uses `Instruction [15-13]` and `Instruction[3-0]` to determine what ALU operation should be performed. In this case, function is `0000` so the ALU Operation is `000` or `ADD`. The ALU Result is then put into the ```Write data``` input for the register file as `MemtoReg` is low.
+```Instruction [15-13]``` (opcode)  is sent to the control and realized as ```000```. This indicates that ```RegWrite``` should be the only control signal set to high. This allows for ```rd``` or `Instruction [6-4]` to be sent to the write register as the multiplixer will allow for it to pass as `RegDest` is low. `ALUSrc` is low making `R[rt]` (which is `Read data 1`) to be sent to the second ALU operand by a multiplexer. The ALU control uses `Instruction [15-13]` and `Instruction[3-0]` to determine what ALU operation should be performed. In this case, function is `0000` so the ALU Operation is `000` or `ADD`. The ALU Result is then put into the ```Write data``` input for the register file as `MemtoReg` is low.
 
 
 ### I-type instruction

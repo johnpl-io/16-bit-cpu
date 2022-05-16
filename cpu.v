@@ -14,7 +14,6 @@ wire [15:0] instruction;
 reg clk;
 reg [15:0] pc;
 wire [15:0] res;
-wire Carry;
 wire isZero;
 
 wire [2:0] rs, rt, rd;
@@ -42,7 +41,7 @@ assign immediate = instruction[6:0];
 assign jumpaddr = instruction[12:0];
 
 
-alu alu_test(.A(read1), .B(alumuxout), .ALU_Code(ALU_Code), .ALU_Out(res), .Carry(Carry), .isZero(isZero));
+alu alu_test(.A(read1), .B(alumuxout), .ALU_Code(ALU_Code), .ALU_Out(res), .isZero(isZero));
 regfilemux regfilemux_test(.reg_dest(reg_dest), .rt(rt), .rd(rd), .reg_result(reg_result));
 regfile reg_test(.clk(clk), .write_en(regwrite), .rega(rs), .regb(rt), .wreg(reg_result), .writedata(memmuxresult), .read1(read1), .read2(read2));
 imem imem_test(.pc(pc), .instruction(instruction));
