@@ -128,7 +128,7 @@ As `Jump` is high, the or gate will output a high signal. All the operations occ
 
 
 ## How to Run Instructions
-To run the instructions type the the compiled machine code into ``code.txt`` where the computer reads the instructions. For readability, code with dashes can be placed into ```precode.txt``` and `./remover.sh` can be run automatically remove dashes and place the machine code into `code.txt` automatically. The size of `code.txt` must be at least 256 lines to fit in data memory so zeroes must be padded after the halt command. To run the program, compile ```cpu.v``` using ```iverilog -o cpu.out cpu.v```. Lastly, run ``vvp cpu.out``.
+To run the instructions type the the compiled machine code into ``code.txt`` where the computer reads the instructions. For readability, code with dashes can be placed into ```precode.txt``` and `./remover.sh` can be run automatically remove dashes and place the machine code into `code.txt` automatically. The size of `code.txt` must be at least 256 lines to fit in data memory so zeroes must be padded after the halt command. To run the program, compile ```cpu.v``` using ```iverilog -o cpu.out cpu.v```. Lastly, run ``vvp cpu.out``. `code.txt` is preloaded with code to determine a nth Fibonacci number. The console will print the value of all the registers as well the pc and instruction each time an instruction is ran.
 
 ## Sample Programs
 ### Fibonacci
