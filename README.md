@@ -81,7 +81,31 @@ The data memory recieves an input of a 16 bit address from the ALU result and wh
 ### Diagram of the Processor 
 <img  alt="ISA" src="diagram.png">
 
+### R-type instruction
+#### ```ADD```
+<img  alt="ISA" src="add.png">
 
+
+
+### I-type instruction
+
+#### ```ADDI```
+<img  alt="ISA" src="addi.png">
+
+#### ```ST```
+<img  alt="ISA" src="st.png">
+
+#### ```LD```
+<img  alt="ISA" src="load.png">
+
+
+#### ```BEQ```
+<img  alt="ISA" src="beq.png">
+
+### J-type instruction
+
+#### ```JUMP```
+<img  alt="ISA" src="jump.png">
 
 
 
@@ -237,3 +261,19 @@ Skip:
     LD   X4, [X2, #1]   //Loads 5
 HALT                    //Stops the Program
 ```
+#### Timing Diagram
+insert photo
+
+### J-Type
+For this example, ``X0`` is again preloaded with a 1 and ``X1`` is preloaded with a 2.0s
+
+#### Assembly Code
+```
+    J SKIP
+    SUB X0, X1, X0
+SKIP:
+    ADD X0, X1, X0
+HALT
+```
+
+#### Timing Diagram
