@@ -139,7 +139,7 @@ LSL  X2, X0,  X1    //X2 = X0 << X1, should be 110100
 SLT  X2, X0,  X1    //Test is X0 < X1, should be 0
 AND  X2, X0,  X1    //X2 = X0 & X1, should be 0000
 OR   X2, X0,  X1    //X2 = X0 | X1, should be 1111
-Not  X2, X0         //X2 = !X1, should be 0010 (leading 0s become 1s)
+NOT  X2, X0         //X2 = !X1, should be 0010 (leading 0s become 1s)
 XOR  X2, X0,  X1    //X2 = X0 ^ X1, should be 1111
 HALT                //Stops the program
 ```
@@ -159,5 +159,5 @@ HALT                //Stops the program
 1111111111111111
 ```
 
-# Time Diagram
+# Time Diagrams
 

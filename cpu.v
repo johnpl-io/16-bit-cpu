@@ -12,9 +12,7 @@ module CPU();
 
 wire [15:0] instruction;
 reg clk;
-reg [2:0] ctrl;
 reg [15:0] pc;
-reg [15:0] count;
 wire [15:0] res;
 wire Carry;
 wire isZero;
@@ -79,7 +77,6 @@ end
 initial begin
 clk = 0;
 pc = 0;
-count = 0;
 
 $dumpfile("out.vcd");
 $dumpvars(0,clk, res);
