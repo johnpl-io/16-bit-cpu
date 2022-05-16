@@ -85,6 +85,7 @@ The data memory recieves an input of a 16 bit address from the ALU result and wh
 #### ```ADD```
 <img  alt="ISA" src="add.png">
 
+```Instruction [16-14]```, the opcode is sent to the controller and realized as ```000```. This indicates that ```RegWrite``` should be the only control signal set to high. This allows for ```rd``` or `Instruction [6-4]` to be sent to the write register as the multiplixer will allow for it to pass as `RegDest` is low. `ALUSrc` is low making `R[rt]` (which is `Read data 1`) to be sent to the second ALU operand by a multiplexer. The ALU Result is then put into the ```Write data``` input for the register file as `MemtoReg` is low.
 
 
 ### I-type instruction
