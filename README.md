@@ -243,7 +243,8 @@ SUB X0, X0, X1
 HALT
 ```
 #### Timing Diagram
-Inset photo
+<img width="944" alt="R-type timing diagram" src="https://user-images.githubusercontent.com/100248274/168501494-1937c3f7-4ae3-4226-bf81-211febea02ec.png">
+
 
 ### I-Type
 To display all the I type of instructions, a slight variation of sample program 2 will be used, replacing the uncondition jump with a branch if equal to.
@@ -263,7 +264,8 @@ Skip:
 HALT                    //Stops the Program
 ```
 #### Timing Diagram
-insert photo
+<img width="944" alt="I-Type timing diagram" src="https://user-images.githubusercontent.com/100248274/168501504-e4e1b8a7-8130-4b94-b72c-5c7c769aff15.png">
+
 
 ### J-Type
 For this example, ``X0`` is again preloaded with a 1 and ``X1`` is preloaded with a 2.0s
@@ -278,3 +280,4 @@ HALT
 ```
 
 #### Timing Diagram
+<img width="950" alt="J-Type timing diagram" src="https://user-images.githubusercontent.com/100248274/168501515-f6e895a5-e772-4c0a-a61e-fb38268f9d00.png">
