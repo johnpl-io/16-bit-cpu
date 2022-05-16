@@ -159,5 +159,5 @@ HALT                //Stops the program
 1111111111111111
 ```
 
-# time diagrams
+# Time Diagram
 
