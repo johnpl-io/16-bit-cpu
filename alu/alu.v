@@ -11,7 +11,6 @@ reg carry;
 assign Carry = carry;
 reg iszero;
 assign isZero = iszero;
-//carry may need to be changed to overflow
 always @(*) 
 begin 
 case(ALU_Code)
@@ -23,7 +22,6 @@ case(ALU_Code)
     3'b101: Result = A | B;         //A or B
     3'b110: Result = ~(A);          //Not
     3'b111: Result = A^B;           //Exclusive OR
-    //probably should add mult div etc 
     default: Result = A+B;
 endcase
 iszero = Result == 0 ? 1 : 0;

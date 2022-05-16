@@ -1,13 +1,13 @@
 `timescale 1ns/1ns
-`include "imem.v"
-`include "alu.v"
-`include "regfile.v"
-`include "control.v"
-`include "aluctrl.v"
-`include "alumux.v"
-`include "regfilemux.v"
-`include "mem.v"
-`include "memmux.v"
+`include "./imem/imem.v"
+`include "./alu/alu.v"
+`include "./regfile/regfile.v"
+`include "./control/control.v"
+`include "./control/aluctrl.v"
+`include "./muxes/alumux.v"
+`include "./muxes/regfilemux.v"
+`include "./mem/mem.v"
+`include "./muxes/memmux.v"
 module CPU();
 
 wire [15:0] instruction;
@@ -58,7 +58,7 @@ memmux memmux_test(.data_from_mem(mem_out), .alu_result(res), .memtoreg(memtoreg
 always @(posedge clk)
 //may have to be negedge 
 begin 
-     $display("pc : %b instruction : %b branch %b isZero %b", pc, instruction, branch, isZero);
+     $display("pc : %b instruction : %b ", pc, instruction);
    if(jump  || (branch && isZero)) 
    begin 
      if(jump)
